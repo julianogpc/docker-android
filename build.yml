@@ -1,0 +1,9 @@
+- hosts: "{{ target }}"
+  become: yes
+  become_user: root
+  gather_facts: no
+
+  roles:
+  - role: build
+    vars:
+    - build_dir: /tmp/docker-build

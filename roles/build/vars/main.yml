@@ -1,0 +1,6 @@
+build_dir: /tmp/docker-build
+image: budtmo/docker-android-x86-9.0
+tag: latest
+registry: registry.gitlab.com/julianogpc/docker-android
+android_user: android
+android_pass: teste123

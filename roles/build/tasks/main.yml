@@ -1,0 +1,31 @@
+---
+  - name: Delete Directory {{ build_dir}}
+    file:
+      path: "{{ build_dir }}"
+      state: absent
+
+  - name: Create Directory {{ build_dir}}
+    file:
+      path: "{{ build_dir }}"
+      state: directory
+
+  - name: Copy run.sh to {{ build_dir }}
+    copy: 
+      src: run.sh
+      dest: "{{ build_dir }}"
+
+  - name: Copy Dockerfile to {{ build_dir }}
+    template: 
+      src: Dockerfile.j2
+      dest: "{{ build_dir }}/Dockerfile"
+
+  - name: Build an image and push it to a private repo
+    docker_image:
+      path: "{{ build_dir }}"
+      name: "{{ registry }}"
+      tag: "{{ tag }}"
+
+  - name: Delete Directory {{ build_dir}}
+    file:
+      path: "{{ build_dir }}"
+      state: absent

@@ -1,0 +1,37 @@
+---
+  - name: Install the package "python3-pip"
+    apt:
+      name: python3-pip
+
+  - name: Add Docker's official GPG key
+    apt_key:
+      url: https://download.docker.com/linux/ubuntu/gpg
+      state: present
+
+  - name: Add Docker's official repository
+    apt_repository:
+      repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable
+      state: present
+
+  - name: Docker Install
+    apt:
+      name: docker-ce={{ docker_version }}
+      state: present
+      update_cache: true
+
+  - name: Ensure group "docker" exists
+    group:
+      name: docker
+      system: yes
+      state: present
+
+  - name: Install Docker Compose
+    get_url:
+      url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-{{ docker_compose_arch}}
+      dest: /usr/local/bin/docker-compose
+      mode: 0755
+
+  - name: Install Python Requirements
+    pip:
+      name: ['docker', 'docker-compose']
+      state: present
